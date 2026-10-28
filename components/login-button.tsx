@@ -17,8 +17,8 @@ export default function LoginButton() {
           disabled={session.isPending || loading}
           onClick={() => {
             setLoading(true);
-            authClient.signIn.oauth2({
-              providerId: "notoverkill",
+            authClient.signIn.social({
+              provider: "notoverkill",
             });
           }}
         >
