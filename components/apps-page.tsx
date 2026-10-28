@@ -33,9 +33,14 @@ function AppCard({ app, authentikServer }: AppCardProps) {
 
 export default async function AppsPage() {
   const headersList = await headers();
+  // better-auth 1.7 selects the account by its Better Auth account ID
+  // rather than by providerId.
+  const accounts = await auth.api.listUserAccounts({ headers: headersList });
+  const account = accounts.find((a) => a.providerId === "notoverkill");
+  if (!account) throw new Error("No notoverkill account linked");
   const token = await auth.api.getAccessToken({
     headers: headersList,
-    body: { providerId: "notoverkill" },
+    body: { accountId: account.id },
   });
 
   const config = new Configuration({
